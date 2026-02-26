@@ -1,0 +1,310 @@
+:root {
+    --bg-color: #050510;
+    --text-color: #e0e0e0;
+    --accent-color: #7c4dff;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+    --transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    overflow: hidden; /* No scroll */
+    height: 100vh;
+    width: 100vw;
+    cursor: none; /* Custom cursor target */
+}
+
+/* --- Global FX --- */
+.noise-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('hero-texture.png'); /* Fallback or generated CSS noise */
+    /* Using a CSS noise generator approach for self-containment if image missing, but I'll use opacity for now */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.vignette {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, transparent 40%, #000 120%);
+    pointer-events: none;
+    z-index: 998;
+}
+
+.cursor-glow {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(124, 77, 255, 0.15), transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+    top: 50%; left: 50%;
+    mix-blend-mode: screen;
+    transition: transform 0.1s ease;
+}
+
+/* --- Ambience --- */
+.bg-ambience {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+}
+
+.star-field {
+    /* Simple CSS stars could go here, for now relying on clean dark bg + noise */
+}
+
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.4;
+    animation: float 20s infinite ease-in-out;
+}
+
+.orb-1 {
+    width: 600px; height: 600px;
+    background: #1a0b2e;
+    top: -100px; left: -100px;
+}
+
+.orb-2 {
+    width: 500px; height: 500px;
+    background: #0f1c30;
+    bottom: -100px; right: -100px;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(50px, 30px); }
+}
+
+/* --- Layout --- */
+.experience {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
+    padding: 2rem;
+}
+
+.layer.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+/* --- Typography & Elements --- */
+.main-title {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(to right, #fff, #a0a0a0);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 2rem;
+    letter-spacing: -2px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+}
+
+.narrative-block p {
+    font-size: 1.5rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.emphasis {
+    color: #fff;
+    font-weight: 400;
+}
+
+/* --- Buttons --- */
+.btn-cinematic {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 1rem 3rem;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(5px);
+    border-radius: 50px;
+    margin-top: 2rem;
+}
+
+.btn-cinematic:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+    letter-spacing: 4px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.audio-btn {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    z-index: 1000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.equalizer {
+    display: flex;
+    gap: 2px;
+    height: 15px;
+    align-items: flex-end;
+}
+
+.audio-btn .bar {
+    width: 2px;
+    background: currentColor;
+    height: 100%;
+    animation: none;
+}
+
+.audio-btn.playing .bar {
+    animation: equalizer 1s infinite ease-in-out;
+}
+
+.audio-btn.playing .bar:nth-child(2) { animation-delay: 0.2s; }
+.audio-btn.playing .bar:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes equalizer {
+    0%, 100% { height: 20%; }
+    50% { height: 100%; }
+}
+
+/* --- Secret Layer Input --- */
+.secret-trigger-area {
+    margin-top: 4rem;
+    opacity: 0; /* Hidden by default, GSAP can fade it in subtly or stay 0 opacity to be "hidden" */
+    transition: opacity 0.5s;
+}
+
+.secret-trigger-area:hover {
+    opacity: 1; /* Reveal on hover or use GSAP to reveal after delay */
+}
+
+input.secret-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    width: 200px;
+    outline: none;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    padding: 5px 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-ghost:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* --- Theme Overrides --- */
+/* Peak */
+[data-theme="peak"] .peak-title {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
+}
+
+/* Golden Secret */
+[data-theme="golden"] {
+    background: radial-gradient(circle at center, #2e1a0b 0%, #050510 100%);
+}
+
+[data-theme="golden"] .golden-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.05), transparent 70%);
+    pointer-events: none;
+}
+
+[data-theme="golden"] .secret-title {
+    color: #ffd700;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-title { font-size: 3rem; }
+    .narrative-block p { font-size: 1.1rem; }
+    [data-theme="peak"] .peak-title { font-size: 2.5rem; }
+    .cursor-glow { display: none; } /* Disable cursor glow on mobile for perf/usability */
+}

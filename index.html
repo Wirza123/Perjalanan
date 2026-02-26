@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebelum Aku Pergi</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script> <!-- Note: SplitText is a Club GreenSock perk, using standard alternatives if fails or standard text animation -->
+    <!-- Since SplitText is paid, we might need a fallback or just use standard staggered animations on blocks. I will use standard GSAP to avoid license issues for the user unless they have it. -->
+</head>
+<body class="loading-state">
+
+    <!-- Global FX -->
+    <div class="noise-overlay"></div>
+    <div class="vignette"></div>
+    <div class="cursor-glow"></div>
+    
+    <!-- Audio Control -->
+    <button id="audio-toggle" class="audio-btn">
+        <span class="text">SOUND OFF</span>
+        <div class="equalizer">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+    </button>
+
+    <!-- Background Ambience -->
+    <div class="bg-ambience">
+        <div class="star-field"></div>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="experience">
+
+        <!-- Layer 1: Opening -->
+        <section id="layer-1" class="layer active">
+            <div class="content-wrapper centered">
+                <p class="subtitle fade-in">Sebuah pesan singkat...</p>
+                <h1 class="title main-title">Sebelum Aku<br><em>Pergi</em></h1>
+                <button class="btn-cinematic" data-next="2">
+                    <span class="btn-text">Buka Pesannya</span>
+                    <span class="btn-glow"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Layer 2: The Journey -->
+        <section id="layer-2" class="layer">
+            <div class="content-wrapper centered">
+                <div class="narrative-block">
+                    <p class="text-reveal">Halo semua...</p>
+                    <p class="text-reveal delay-1">Saya Wirza Riansyah.</p>
+                    <p class="text-reveal delay-2">Akan Pergi Untuk Sementara Waktu...</p>
+                    <p class="text-reveal delay-3 emphasis">Doakan aku Semoga Baik-baik saja di jalan.</p>
+                </div>
+                <button class="btn-cinematic margin-top" data-next="3">
+                    <span class="btn-text">Lanjutkan</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Layer 3: Distance -->
+        <section id="layer-3" class="layer">
+            <div class="content-wrapper centered">
+                <div class="narrative-block">
+                    <h2 class="section-title">Rintangan</h2>
+                    <p class="typewriter-text" id="typewriter-1"></p>
+                    <!-- "Bahaya mungkin Menanti, Tapi aku akan Berusaha menghindarinya." -->
+                </div>
+                <button class="btn-cinematic margin-top" data-next="4">
+                    <span class="btn-text">Pesan Terakhir</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Layer 4: Emotional Peak -->
+        <section id="layer-4" class="layer" data-theme="peak">
+            <div class="content-wrapper centered">
+                <div class="narrative-block peak-content">
+                    <p class="peak-line">Jujur... pergi adalah hal tersulit.</p>
+                    <p class="peak-line">Akan Bahaya Kalau Sendirian.</p>
+                    <p class="peak-line">Jikalau Takdir Baik Padaku...</p>
+                    <h2 class="peak-title">Aku Akan Kembali.<br>Dan Menemui Kalian Lagi.</h2>
+                </div>
+                
+                <div class="secret-trigger-area">
+                    <p class="hint-text">Ada satu rahasia lagi...</p>
+                    <input type="text" id="secret-code" class="secret-input" placeholder="Masukkan Kode..." autocomplete="off">
+                    <button id="unlock-secret" class="btn-ghost">Buka</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Layer 5: The Secret (Hidden) -->
+        <section id="layer-5" class="layer secret-layer" data-theme="golden">
+            <div class="content-wrapper centered">
+                <div class="secret-content">
+                    <div class="golden-glow"></div>
+                    <h1 class="secret-title">Pesan khusus Untuk Ismi Umayah</h1>
+                    <p class="secret-message">
+                        Izin aku menyampaikan sesuatu yang sudah lama aku pendam.<br>
+                        Aku ada rasa sama kamu, dari awal masuk kuliah.<br>
+                        Aku cuma bisa mengagumi dari jauh, Dan aku takut untuk mengungkapkan.<br>
+                        Aku Sebenernya Gamasalah Mau Kayak Mana kedepannya.<br>
+                        Yang Penting aku sudah Mengungkapkan.<br>
+                        ILY.<br>
+
+                    </p>
+                    <div class="gallery-placeholder">
+                        <!-- Could put a photo here if user had one, for now a nice frame -->
+                        <div class="frame">
+                            <span class="frame-text">Sampai Jumpa Lagi</span>
+                        </div>
+                    </div>
+                    <button class="btn-replay" onclick="location.reload()">Putar Ulang</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=sad-piano-111666.mp3" type="audio/mpeg">
+        <!-- Royalty free placeholder: Sad Piano -->
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
